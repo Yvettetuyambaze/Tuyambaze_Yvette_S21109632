@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wind_speed_units" />
+    <string-array name="precipitation_units" />
+    <string-array name="pressure_units" />
+    <string-array name="distance_units" />
+</resources>

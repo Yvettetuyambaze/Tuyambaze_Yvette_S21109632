@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".Activities.NotificationFragment">
+
+    <TextView
+        android:id="@+id/notificationTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notifications"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
+
+    <TextView
+        android:id="@+id/notificationDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notificationTitleTextView"
+        android:layout_marginTop="16dp"
+        android:text="Weather can send you notifications for rain, snow, and certain relevant severe weather alerts."
+        android:textAppearance="?attr/textAppearanceBody1" />
+
+    <TextView
+        android:id="@+id/currentLocationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notificationDescriptionTextView"
+        android:layout_marginTop="24dp"
+        android:text="CURRENT LOCATION"
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+    <Switch
+        android:id="@+id/severeWeatherSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentLocationTextView"
+        android:layout_marginTop="8dp"
+        android:text="Severe Weather"
+        android:textAppearance="?attr/textAppearanceBody1" />
+
+    <Switch
+        android:id="@+id/nextHourPrecipitationSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/severeWeatherSwitch"
+        android:layout_marginTop="8dp"
+        android:text="Next-Hour Precipitation"
+        android:textAppearance="?attr/textAppearanceBody1" />
+
+    <TextView
+        android:id="@+id/associateNotificationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nextHourPrecipitationSwitch"
+        android:layout_marginTop="16dp"
+        android:text="If you enable severe weather notifications, Apple can associate the country or region of these notifications with your Apple ID. See how your data is managed..."
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+    <TextView
+        android:id="@+id/yourLocationsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/associateNotificationTextView"
+        android:layout_marginTop="24dp"
+        android:text="YOUR LOCATIONS"
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yourLocationsTextView"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/locationCupertino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cupertino"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <TextView
+            android:id="@+id/locationNewYork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="New York"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <TextView
+            android:id="@+id/locationMumbai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Mumbai"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/notSupportedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Notifications aren't supported for some locations in your list. Learn more..."
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+</RelativeLayout>
