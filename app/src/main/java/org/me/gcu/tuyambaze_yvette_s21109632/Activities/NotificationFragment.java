@@ -36,7 +36,7 @@ public class NotificationFragment extends Fragment {
         yourLocationsTextView = view.findViewById(R.id.yourLocationsTextView);
         locationCupertino = view.findViewById(R.id.locationCupertino);
         locationNewYork = view.findViewById(R.id.locationNewYork);
-        locationMumbai = view.findViewById(R.id.locationMumbai);
+        locationMumbai = view.findViewById(R.id.locationNewYork);
         notSupportedTextView = view.findViewById(R.id.notSupportedTextView);
 
         // Set up switch listeners or any other logic

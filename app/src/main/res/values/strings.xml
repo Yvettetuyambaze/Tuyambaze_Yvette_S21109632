@@ -1,5 +1,27 @@
 <resources>
     <string name="app_name">Tuyambaze_Yvette_S21109632</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Update Interval Entries -->
+    <string-array name="update_interval_entries">
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+    </string-array>
+
+    <!-- Update Interval Values -->
+    <string-array name="update_interval_values">
+        <item>1</item>
+        <item>3</item>
+        <item>6</item>
+        <item>12</item>
+    </string-array>
+
+    <string name="app_name2">Weather App</string>
+
+    <!-- About Fragment -->
+    <string name="about_description">This app provides weather forecasts for various locations around the world. It fetches data from the BBC weather RSS feeds and displays the information in a user-friendly manner.</string>
+    <string name="about_features">The app displays a 3-day weather forecast, current weather observations, and additional details like humidity, wind speed, and weather icons. 🌩️ 🌧️ It also provides a graphical representation of the weather conditions using icons and maps.</string>
+    <string name="about_data_source">The weather data is sourced from the BBC Weather RSS feeds, which provide reliable and up-to-date information for locations worldwide.</string>
+    <string name="about_updates">The app automatically updates the weather data when it starts and at regular intervals set by the user, with a default schedule of 8:00 AM and 8:00 PM.</string>
 </resources>

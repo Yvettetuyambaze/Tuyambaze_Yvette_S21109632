@@ -82,7 +82,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         searchView = view.findViewById(R.id.search_view);
         locationSuggestions = new ArrayList<>();
         // Add location suggestions to the list
-        locationSuggestions.add("Glasgow");
+        locationSuggestions.add("Glasgow ");
         locationSuggestions.add("London");
         locationSuggestions.add("NewYork");
         locationSuggestions.add("Oman");

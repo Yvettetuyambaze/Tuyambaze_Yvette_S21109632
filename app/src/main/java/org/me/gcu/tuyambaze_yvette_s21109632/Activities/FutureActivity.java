@@ -3,6 +3,9 @@ package org.me.gcu.tuyambaze_yvette_s21109632.Activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +35,7 @@ public class FutureActivity extends AppCompatActivity implements WeatherForecast
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_future);
+        Button backButton = findViewById(R.id.backButton);
 
         // Retrieve the location ID from the intent extras
         Intent intent = getIntent();
@@ -44,6 +48,12 @@ public class FutureActivity extends AppCompatActivity implements WeatherForecast
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         fetchWeatherForecastData();
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Go back to the previous activity (LandingScreen)
+            }
+        });
     }
 
     private void fetchWeatherForecastData() {
@@ -109,6 +119,20 @@ public class FutureActivity extends AppCompatActivity implements WeatherForecast
                                 currentForecast.setMinTemperature(part.replace("Minimum Temperature:", "").trim());
                             } else if (part.startsWith("Visibility:")) {
                                 currentForecast.setVisibility(part.replace("Visibility:", "").trim());
+                            }else if (part.startsWith("Wind Direction:")) {
+                                currentForecast.setWindDirection(part.replace("Wind Direction:", "").trim());
+                            } else if (part.startsWith("Wind Speed:")) {
+                                currentForecast.setWindSpeed(part.replace("Wind Speed:", "").trim());
+                            } else if (part.startsWith("Humidity:")) {
+                                currentForecast.setHumidity(part.replace("Humidity:", "").trim());
+                            } else if (part.startsWith("UV Risk:")) {
+                                currentForecast.setUvRisk(part.replace("UV Risk:", "").trim());
+                            } else if (part.startsWith("Pollution:")) {
+                                currentForecast.setPollution(part.replace("Pollution:", "").trim());
+                            } else if (part.startsWith("Sunrise:")) {
+                                currentForecast.setSunrise(part.replace("Sunrise:", "").trim());
+                            } else if (part.startsWith("Sunset:")) {
+                                currentForecast.setSunset(part.replace("Sunset:", "").trim());
                             }
                         }
                     } else if ("pubDate".equals(tagName)) {

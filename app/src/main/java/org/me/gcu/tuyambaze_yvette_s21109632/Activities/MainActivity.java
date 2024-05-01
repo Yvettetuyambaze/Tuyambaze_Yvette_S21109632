@@ -1,13 +1,23 @@
 package org.me.gcu.tuyambaze_yvette_s21109632.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,8 +25,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import org.me.gcu.tuyambaze_yvette_s21109632.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,7 +86,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Schedule periodic data updates
+        schedulePeriodicDataUpdates();
+
+        // Create the notification channel
+        createNotificationChannel();
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,54 +107,47 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_item1) {
-            // Handle menu item 1 click
-            return true;
-        } else if (id == R.id.menu_item2) {
-            // Handle menu item 2 click
-            return true;
-        } else if (id == R.id.menu_item3) {
-            // Handle menu item 3 click
-            return true;
-        } else if (id == R.id.menu_item4) {
-            // Handle menu item 4 click
-            return true;
-        } else if (id == R.id.menu_item5) {
-            // Handle menu item 5 click
-            return true;
-        } else if (id == R.id.menu_item6) {
-            // Handle menu item 6 click
-            return true;
-        } else if (id == R.id.menu_item7) {
-            // Handle menu item 7 click
+        if (id == R.id.menu_item2 || id == R.id.menu_item3 || id == R.id.menu_item4 ||
+                id == R.id.menu_item5 || id == R.id.menu_item6 || id == R.id.menu_item7) {
+            // Navigate to the settings fragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, settingsFragment)
+                    .addToBackStack(null)
+                    .commit();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+    private void schedulePeriodicDataUpdates() {
+        // Get the update interval from SharedPreferences (default is 12 hours)
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String updateIntervalString = sharedPreferences.getString("update_interval", "12");
+        long updateIntervalMillis = Long.parseLong(updateIntervalString) * 60 * 60 * 1000;
 
-    private List<Weather> fetchWeatherData() {
-        // Implement your code to fetch weather data from an API or database
-        // Return the weather data as a List<Weather>
-        // For demonstration purposes, let's create a sample weatherDataList
-        List<Weather> weatherDataList = new ArrayList<>();
-        // Add sample weather data to the list
-        weatherDataList.add(createWeather("New York", "40.7128 -74.0060", "Sunny", "25°C", "30°C", "10%", "5 m/s"));
-        weatherDataList.add(createWeather("London", "51.5074 -0.1278", "Cloudy", "18°C", "22°C", "60%", "3 m/s"));
-        weatherDataList.add(createWeather("Paris", "48.8566 2.3522", "Rainy", "15°C", "18°C", "80%", "2 m/s"));
-        return weatherDataList;
+        PeriodicWorkRequest periodicUpdateRequest =
+                new PeriodicWorkRequest.Builder(DataUpdateWorker.class, updateIntervalMillis, TimeUnit.MILLISECONDS)
+                        .setConstraints(new Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build())
+                        .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "WeatherDataUpdate",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                periodicUpdateRequest
+        );
     }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Weather Channel";
+            String description = "Channel for weather notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("weather_channel", name, importance);
+            channel.setDescription(description);
 
-    private Weather createWeather(String title, String geoRssPoint, String forecastWeatherType,
-                                  String minTemperature, String maxTemperature, String humidity, String wind) {
-        Weather weather = new Weather();
-        weather.setTitle(title);
-        weather.setGeoRssPoint(geoRssPoint);
-        weather.setForecastWeatherType(forecastWeatherType);
-        weather.setMinTemperature(minTemperature);
-        weather.setMaxTemperature(maxTemperature);
-        weather.setHumidity(humidity);
-        weather.setWind(wind);
-        return weather;
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

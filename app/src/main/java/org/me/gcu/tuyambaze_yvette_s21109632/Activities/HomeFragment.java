@@ -1,9 +1,12 @@
 package org.me.gcu.tuyambaze_yvette_s21109632.Activities;
 
-
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,14 +76,26 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.view1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-
-
         locationSearchView = view.findViewById(R.id.locationSearchView);
         locationList = new ArrayList<>();
         populateLocationList();
 
         locationAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, locationList);
         locationSearchView.setAdapter(locationAdapter);
+
+
+
+        // Save the selected location to SharedPreferences
+        locationSearchView.setOnItemClickListener((parent, view1, position, id) -> {
+            String selectedLocation = (String) parent.getItemAtPosition(position);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("selected_location", selectedLocation);
+            editor.apply();
+            // ...
+        });
+
+
 
         locationSearchView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,7 +138,38 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        // Check internet connectivity
+        if (!isInternetConnected()) {
+            showNoInternetDialog();
+        }
+
         return view;
+    }
+
+    private boolean isInternetConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void showNoInternetDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("No Internet Connection")
+                .setMessage("Please check your internet connection and try again.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle OK button click if needed
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle Cancel button click if needed
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 
     private void populateLocationList() {
@@ -135,18 +182,18 @@ public class HomeFragment extends Fragment {
     }
 
     private int getLocationIdFromName(String locationName) {
-        switch (locationName) {
-            case "Glasgow":
+        switch (locationName.toLowerCase()) {
+            case "glasgow":
                 return 2648579;
-            case "London":
+            case "london":
                 return 2643743;
-            case "New York":
+            case "new york":
                 return 5128581;
-            case "Oman":
+            case "oman":
                 return 287286;
-            case "Mauritius":
+            case "mauritius":
                 return 934154;
-            case "Bangladesh":
+            case "bangladesh":
                 return 1185241;
             default:
                 showInvalidLocationDialog();
@@ -167,9 +214,7 @@ public class HomeFragment extends Fragment {
         dialog.show();
     }
 
-    private void fetchWeatherData(int locationId) {
-        new WeatherDataTask().execute(locationId);
-    }
+    private void fetchWeatherData(int locationId) { new WeatherDataTask().execute(locationId);}
 
     private class WeatherDataTask extends AsyncTask<Integer, Void, List<Weather>> {
         @Override

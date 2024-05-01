@@ -8,4 +8,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="my_custom_blue">#2196F3</color>
+    <color name="colorPrimary">#1F1F1F</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
 </resources>

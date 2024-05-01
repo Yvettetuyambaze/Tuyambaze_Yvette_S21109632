@@ -9,6 +9,13 @@ public class WeatherForecast implements Serializable {
     private String maxTemperature;
     private String visibility;
     private String date;
+    private String windDirection;
+    private String windSpeed;
+    private String humidity;
+    private String uvRisk;
+    private String pollution;
+    private String sunrise;
+    private String sunset;
 
     public String getDay() {
         return day;
@@ -56,5 +63,61 @@ public class WeatherForecast implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getWindDirection() {
+        return windDirection;
+    }
+
+    public void setWindDirection(String windDirection) {
+        this.windDirection = windDirection;
+    }
+
+    public String getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(String windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public String getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(String humidity) {
+        this.humidity = humidity;
+    }
+
+    public String getUvRisk() {
+        return uvRisk;
+    }
+
+    public void setUvRisk(String uvRisk) {
+        this.uvRisk = uvRisk;
+    }
+
+    public String getPollution() {
+        return pollution;
+    }
+
+    public void setPollution(String pollution) {
+        this.pollution = pollution;
+    }
+
+    public String getSunrise() {
+        return sunrise;
+    }
+
+    public void setSunrise(String sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public String getSunset() {
+        return sunset;
+    }
+
+    public void setSunset(String sunset) {
+        this.sunset = sunset;
     }
 }

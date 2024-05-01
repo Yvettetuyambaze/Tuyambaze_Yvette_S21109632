@@ -15,7 +15,7 @@
     </style>
 
     <!-- Light theme -->
-    <style name="Theme.uyambaze_yvette_S21109632.Light" parent="AppTheme">
+    <style name="Theme.tuyambaze_yvette_S21109632.Light" parent="AppTheme">
         <!-- Customize your light theme here. -->
     </style>
 
@@ -23,5 +23,9 @@
     <style name="tuyambaze_yvette_S21109632.Dark" parent="AppTheme">
         <!-- Customize your dark theme here. -->
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>
