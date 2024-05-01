@@ -1,170 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:padding="16dp"
+    tools:context=".Activities.NotificationFragment">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/notificationTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        tools:context=".Activities.NotificationFragment">
+        android:text="Set Notifications"
+        android:textColor="@color/white"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/notificationDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notificationTitleTextView"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:text="Weather can send you notifications for rain, snow, and certain relevant severe weather alerts."
+        android:textAppearance="?attr/textAppearanceBody1" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/currentLocationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notificationDescriptionTextView"
+        android:layout_marginTop="24dp"
+        android:text="CURRENT LOCATION"
+        android:textColor="@color/white"
+        android:textAppearance="?attr/textAppearanceCaption" />
 
-                <TextView
-                    android:id="@+id/notificationTitleTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Set Notifications"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@color/white" />
+    <Switch
+        android:id="@+id/severeWeatherSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentLocationTextView"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:text="🌩️ Severe Weather"
+        android:textAppearance="?attr/textAppearanceBody1" />
 
-                <TextView
-                    android:id="@+id/notificationDescriptionTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Weather can send you notifications for rain, snow, and certain relevant severe weather alerts."
-                    android:textAppearance="?attr/textAppearanceBody1"
-                    android:textColor="@color/white" />
+    <Switch
+        android:id="@+id/nextHourPrecipitationSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/severeWeatherSwitch"
+        android:layout_marginTop="8dp"
+        android:text="🌧️ Next-Hour Precipitation"
+        android:textColor="@color/white"
+        android:textAppearance="?attr/textAppearanceBody1" />
 
-                <TextView
-                    android:id="@+id/currentLocationTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="CURRENT LOCATION"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/associateNotificationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nextHourPrecipitationSwitch"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:text="If you enable severe weather notifications, Apple can associate the country or region of these notifications with your Apple ID. See how your data is managed..."
+        android:textAppearance="?attr/textAppearanceCaption" />
 
-                <Switch
-                    android:id="@+id/severeWeatherSwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="🌩️ Severe Weather"
-                    android:textAppearance="?attr/textAppearanceBody1"
-                    android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/yourLocationsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/associateNotificationTextView"
+        android:layout_marginTop="24dp"
+        android:text="YOUR LOCATIONS"
+        android:textColor="@color/white"
+        android:textAppearance="?attr/textAppearanceCaption" />
 
-                <Switch
-                    android:id="@+id/nextHourPrecipitationSwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="🌧️ Next-Hour Precipitation"
-                    android:textAppearance="?attr/textAppearanceBody1"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/associateNotificationTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="If you enable severe weather notifications, Apple can associate the country or region of these notifications with your Apple ID. See how your data is managed..."
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/yourLocationsTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="YOUR LOCATIONS"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    android:textColor="@color/white" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/locationCupertino"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="🏴󠁧󠁢󠁳󠁣󠁴󠁿 Glasgow"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/locationNewYork"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="🏴󠁧󠁢󠁥󠁮󠁧󠁿 London"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/NewYork"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="🗽 NewYork"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/Oman"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="🇴🇲 Oman"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/Mauritius"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="🇲🇺 Mauritius"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/Bangladesh"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="🇧🇩 Bangladesh"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yourLocationsTextView"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/notSupportedTextView"
+            android:id="@+id/locationCupertino"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Notifications aren't supported for some locations in your list. Learn more..."
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@color/white" />
+            android:layout_marginTop="8dp"
+            android:text="🏴󠁧󠁢󠁳󠁣󠁴󠁿 Glasgow"
+            android:textColor="@color/white"
+            android:textAppearance="?attr/textAppearanceBody1" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/locationNewYork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🏴󠁧󠁢󠁥󠁮󠁧󠁿 London"
+            android:textColor="@color/white"
+            android:textAppearance="?attr/textAppearanceBody1" />
 
-</ScrollView>
+        <TextView
+            android:id="@+id/NewYork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🗽 NewYork"
+            android:textColor="@color/white"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <TextView
+            android:id="@+id/Oman"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🇴🇲 Oman"
+            android:textColor="@color/white"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <TextView
+            android:id="@+id/Mauritius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🇲🇺 Mauritius"
+            android:textColor="@color/white"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <TextView
+            android:id="@+id/Bangladesh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="🇧🇩 Bangladesh"
+            android:textColor="@color/white"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/notSupportedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:text="Notifications aren't supported for some locations in your list. Learn more..."
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+</RelativeLayout>
