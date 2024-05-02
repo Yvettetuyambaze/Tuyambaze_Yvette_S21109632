@@ -21,6 +21,7 @@
     <item
         android:id="@+id/menu_item5"
         android:title="Fahrenheit"
+
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_item6"
