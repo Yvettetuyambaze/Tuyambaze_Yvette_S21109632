@@ -1,7 +1,13 @@
 package org.me.gcu.tuyambaze_yvette_s21109632.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -34,10 +40,7 @@ public class LandingScreen extends AppCompatActivity {
         getStartedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an intent to navigate to the MainActivity
-                Intent intent = new Intent(LandingScreen.this, MainActivity.class);
-                startActivity(intent); // Start the MainActivity
-                finish(); // Finish the LandingScreen activity
+                checkInternetConnectivityAndNavigate();
             }
         });
 
@@ -49,6 +52,39 @@ public class LandingScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void checkInternetConnectivityAndNavigate() {
+        if (isInternetConnected()) {
+            // Create an intent to navigate to the MainActivity
+            Intent intent = new Intent(LandingScreen.this, MainActivity.class);
+            startActivity(intent); // Start the MainActivity
+            finish(); // Finish the LandingScreen activity
+        } else {
+            showNoInternetDialog();
+        }
+    }
+
+    private boolean isInternetConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    private void showNoInternetDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LandingScreen.this);
+        builder.setTitle("No Internet Connection")
+                .setMessage("Please check your internet connection and try again.")
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Check internet connectivity again when the "Retry" button is clicked
+                        checkInternetConnectivityAndNavigate();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .setCancelable(false)
+                .show();
     }
 
     private void startProgressBarAnimation() {

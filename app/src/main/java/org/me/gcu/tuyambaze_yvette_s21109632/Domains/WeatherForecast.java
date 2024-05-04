@@ -16,6 +16,7 @@ public class WeatherForecast implements Serializable {
     private String pollution;
     private String sunrise;
     private String sunset;
+    private String pressure;
 
     public String getDay() {
         return day;
@@ -119,5 +120,13 @@ public class WeatherForecast implements Serializable {
 
     public void setSunset(String sunset) {
         this.sunset = sunset;
+    }
+
+    public String getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(String pressure) {
+        this.pressure = pressure;
     }
 }

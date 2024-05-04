@@ -24,4 +24,34 @@
     <string name="about_features">The app displays a 3-day weather forecast, current weather observations, and additional details like humidity, wind speed, and weather icons. 🌩️ 🌧️ It also provides a graphical representation of the weather conditions using icons and maps.</string>
     <string name="about_data_source">The weather data is sourced from the BBC Weather RSS feeds, which provide reliable and up-to-date information for locations worldwide.</string>
     <string name="about_updates">The app automatically updates the weather data when it starts and at regular intervals set by the user, with a default schedule of 8:00 AM and 8:00 PM.</string>
+
+    <string-array name="locations">
+        <item>Glasgow</item>
+        <item>London</item>
+        <item>New York</item>
+        <item>Oman</item>
+        <item>Mauritius</item>
+        <item>Bangladesh</item>
+    </string-array>
+    <string-array name="wind_speed_units">
+        <item>m/s</item>
+        <item>km/h</item>
+        <item>mph</item>
+    </string-array>
+
+    <string-array name="precipitation_units">
+        <item>mm</item>
+        <item>inch</item>
+    </string-array>
+
+    <string-array name="pressure_units">
+        <item>hPa</item>
+        <item>mb</item>
+        <item>mmHg</item>
+    </string-array>
+
+    <string-array name="distance_units">
+        <item>km</item>
+        <item>miles</item>
+    </string-array>
 </resources>

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     MapFragment locationFragment = new MapFragment();
     AboutFragment searchFragment = new AboutFragment();
     NotificationFragment notificationFragment = new NotificationFragment();
+    PreferencesFragment preferencesFragment = new PreferencesFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +95,6 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_nav_menu, menu);
@@ -107,11 +105,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_item2 || id == R.id.menu_item3 || id == R.id.menu_item4 ||
-                id == R.id.menu_item5 || id == R.id.menu_item6 || id == R.id.menu_item7) {
-            // Navigate to the settings fragment
+        if (id == R.id.menu_item3) {
+            // Navigate to the preferences fragment
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, settingsFragment)
+                    .replace(R.id.container, preferencesFragment)
                     .addToBackStack(null)
                     .commit();
             return true;
@@ -119,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void schedulePeriodicDataUpdates() {
         // Get the update interval from SharedPreferences (default is 12 hours)
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -138,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 periodicUpdateRequest
         );
     }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Weather Channel";

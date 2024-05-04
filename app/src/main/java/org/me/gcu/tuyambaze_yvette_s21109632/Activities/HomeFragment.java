@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,11 +57,10 @@ public class HomeFragment extends Fragment {
     private List<String> locationList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         locationNameTextView = view.findViewById(R.id.locationName);
-
         weatherDescriptionTextView = view.findViewById(R.id.weatherDescription);
         temperatureTextView = view.findViewById(R.id.temperature);
         windTextView = view.findViewById(R.id.wind);
@@ -83,8 +83,6 @@ public class HomeFragment extends Fragment {
         locationAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, locationList);
         locationSearchView.setAdapter(locationAdapter);
 
-
-
         // Save the selected location to SharedPreferences
         locationSearchView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedLocation = (String) parent.getItemAtPosition(position);
@@ -92,10 +90,7 @@ public class HomeFragment extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("selected_location", selectedLocation);
             editor.apply();
-            // ...
         });
-
-
 
         locationSearchView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,6 +117,16 @@ public class HomeFragment extends Fragment {
                 fetchCurrentWeather(locationId);
             }
         });
+
+        Button compareLocationsButton = view.findViewById(R.id.compareLocationsButton);
+        compareLocationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CompareLocationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,18 +161,7 @@ public class HomeFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("No Internet Connection")
                 .setMessage("Please check your internet connection and try again.")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle OK button click if needed
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle Cancel button click if needed
-                    }
-                })
+                .setPositiveButton("OK", null)
                 .setCancelable(false)
                 .show();
     }
@@ -214,7 +208,9 @@ public class HomeFragment extends Fragment {
         dialog.show();
     }
 
-    private void fetchWeatherData(int locationId) { new WeatherDataTask().execute(locationId);}
+    private void fetchWeatherData(int locationId) {
+        new WeatherDataTask().execute(locationId);
+    }
 
     private class WeatherDataTask extends AsyncTask<Integer, Void, List<Weather>> {
         @Override

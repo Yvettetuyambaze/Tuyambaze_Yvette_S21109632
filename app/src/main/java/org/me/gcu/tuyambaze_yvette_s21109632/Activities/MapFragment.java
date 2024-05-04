@@ -1,10 +1,14 @@
 package org.me.gcu.tuyambaze_yvette_s21109632.Activities;
 
-
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,11 +22,19 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,6 +42,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.me.gcu.tuyambaze_yvette_s21109632.R;
 import org.xmlpull.v1.XmlPullParser;
@@ -46,7 +59,15 @@ import java.util.Map;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final long UPDATE_INTERVAL = 10000; // 10 seconds
+    private static final long FASTEST_INTERVAL = 5000; // 5 seconds
+
     private GoogleMap mMap;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private Marker currentLocationMarker;
     private Map<String, LatLng> locationCoordinates;
     private Map<String, Integer> locationIds;
     private Button zoomInButton;
@@ -61,6 +82,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
         zoomInButton = view.findViewById(R.id.btn_zoom_in);
         zoomOutButton = view.findViewById(R.id.btn_zoom_out);
@@ -82,7 +105,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         searchView = view.findViewById(R.id.search_view);
         locationSuggestions = new ArrayList<>();
         // Add location suggestions to the list
-        locationSuggestions.add("Glasgow ");
+        locationSuggestions.add("Glasgow");
         locationSuggestions.add("London");
         locationSuggestions.add("NewYork");
         locationSuggestions.add("Oman");
@@ -125,6 +148,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return true;
         });
 
+        Button currentLocationButton = view.findViewById(R.id.btn_current_location);
+        currentLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                    zoomToCurrentLocation();
+                } else {
+                    requestLocationPermission();
+                }
+            }
+        });
+
         return view;
     }
 
@@ -157,6 +193,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return false;
             }
         });
+
+        // Check location permission and request location updates
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        } else {
+            requestLocationPermission();
+        }
     }
 
     private void initializeLocationCoordinates() {
@@ -192,12 +235,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             // Add marker to the map
             mMap.addMarker(markerOptions);
-        }
-
-        // Move the camera to the first marker
-        if (!locationCoordinates.isEmpty()) {
-            LatLng firstLocation = locationCoordinates.values().iterator().next();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 5f));
         }
     }
 
@@ -239,6 +276,101 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         new WeatherDataTask(marker).execute(apiUrl);
     }
 
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions(requireActivity(),
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                LOCATION_PERMISSION_REQUEST_CODE);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void startLocationUpdates() {
+        locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null) {
+                    Location location = locationResult.getLastLocation();
+                    updateCurrentLocation(location);
+                }
+            }
+        };
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    private void updateCurrentLocation(Location location) {
+        if (location != null) {
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+            if (currentLocationMarker == null) {
+                // Add marker for current location
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(currentLatLng)
+                        .title("Current Location");
+                currentLocationMarker = mMap.addMarker(markerOptions);
+            } else {
+                // Update marker position for current location
+                currentLocationMarker.setPosition(currentLatLng);
+            }
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f));
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void zoomToCurrentLocation() {
+        LocationManager locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
+
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null) {
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+        if (location != null) {
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f));
+        } else {
+            Toast.makeText(getContext(), "Unable to retrieve current location", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                    startLocationUpdates();
+                    zoomToCurrentLocation();
+                }
+            } else {
+                // Permission denied, handle accordingly (e.g., show a message or disable location-related features)
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        }
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
     private class WeatherDataTask extends AsyncTask<String, Void, Map<String, String>> {
 
         private Marker marker;
@@ -264,6 +396,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 boolean isItem = false;
 
                 while (eventType != XmlPullParser.END_DOCUMENT) {
+
                     if (eventType == XmlPullParser.START_TAG) {
                         String tagName = parser.getName();
                         if (tagName.equalsIgnoreCase("item")) {
@@ -333,7 +466,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 dateTextView.setText(Html.fromHtml("<b>Date:</b> " + weatherData.get("Date")));
                 dayTextView.setText(Html.fromHtml("<b>Weather Condition:</b> " + weatherData.get("Day")));
-
             }
 
             return infoWindowView;

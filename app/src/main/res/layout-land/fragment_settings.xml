@@ -60,9 +60,8 @@
         <Spinner
             android:id="@+id/windSpeedUnitSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/wind_speed_units"
-            android:popupBackground="@android:color/black" />
+            android:layout_height="48dp"
+            android:entries="@array/wind_speed_units" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,9 +75,8 @@
         <Spinner
             android:id="@+id/precipitationUnitSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/precipitation_units"
-            android:popupBackground="@android:color/black" />
+            android:layout_height="48dp"
+            android:entries="@array/precipitation_units" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,9 +90,8 @@
         <Spinner
             android:id="@+id/pressureUnitSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/pressure_units"
-            android:popupBackground="@android:color/black" />
+            android:layout_height="48dp"
+            android:entries="@array/pressure_units" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,9 +105,8 @@
         <Spinner
             android:id="@+id/distanceUnitSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/distance_units"
-            android:popupBackground="@android:color/black" />
+            android:layout_height="48dp"
+            android:entries="@array/distance_units" />
 
         <Button
             android:id="@+id/restoreDefaultsButton"
@@ -123,7 +119,7 @@
         <Switch
             android:id="@+id/darkModeSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:text="Dark Mode"
             android:textColor="@android:color/white" />

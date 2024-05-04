@@ -1,12 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:key="update_interval"
-        android:title="🌧️ Click Here>> To Update Interval"
-        android:summary="Select the interval for updating weather data 12 is the default"
-        android:defaultValue="12"
-        android:entries="@array/update_interval_entries"
-        android:entryValues="@array/update_interval_values" />
 
-    <!-- Add more preferences as needed -->
+    <PreferenceCategory
+        android:title="Weather Settings"
+        android:textColor="@android:color/white">
+
+        <ListPreference
+            android:key="update_interval"
+            android:title="🌧️ Click Here>> To Update Interval"
+            android:summary="Select the interval for updating weather data. 12 is the default."
+            android:defaultValue="12"
+            android:entries="@array/update_interval_entries"
+            android:entryValues="@array/update_interval_values"
+            android:icon="@drawable/baseline_edit_24"
+            android:textColor="@android:color/white" />
+
+        <Preference
+            android:key="selected_location"
+            android:title="Selected Location"
+            android:summary="Display the selected location"
+            android:icon="@drawable/baseline_location_on_24"
+            android:textColor="@android:color/white" />
+
+        <Preference
+            android:key="last_update"
+            android:title="Last Update"
+            android:summary="Display the last update date and time"
+            android:icon="@drawable/sunny"
+            android:textColor="@android:color/white" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Display Settings"
+        android:textColor="@android:color/white">
+
+        <SwitchPreference
+            android:key="dark_mode"
+            android:title="Dark Mode"
+            android:summary="Enable dark mode for better visibility at night."
+            android:icon="@drawable/night_clear"
+            android:textColor="@android:color/white" />
+
+        <CheckBoxPreference
+            android:key="show_icons"
+            android:title="Show Weather Icons"
+            android:summary="Display weather icons for better visualization."
+            android:icon="@drawable/cloudy"
+            android:textColor="@android:color/white" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="About"
+        android:textColor="@android:color/white">
+
+        <Preference
+            android:key="about_app"
+            android:title="About WeatherApp"
+            android:summary="Learn more about WeatherApp."
+            android:icon="@drawable/baseline_ad_units_24"
+            android:textColor="@android:color/white" />
+
+        <Preference
+            android:key="contact_us"
+            android:title="Contact Us"
+            android:summary="Get in touch with our support team."
+            android:icon="@drawable/common_full_open_on_phone"
+            android:textColor="@android:color/white" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

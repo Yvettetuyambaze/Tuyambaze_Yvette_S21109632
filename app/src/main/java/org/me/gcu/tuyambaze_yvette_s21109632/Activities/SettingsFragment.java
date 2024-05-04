@@ -1,52 +1,86 @@
 package org.me.gcu.tuyambaze_yvette_s21109632.Activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Switch;
 
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.work.Constraints;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.NetworkType;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import org.me.gcu.tuyambaze_yvette_s21109632.R;
 
-import java.util.concurrent.TimeUnit;
+public class SettingsFragment extends Fragment {
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+    private SharedPreferences sharedPreferences;
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.preferences, rootKey);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        // Set up the update interval preference
-        Preference updateIntervalPreference = findPreference("update_interval");
-        updateIntervalPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        // Check if dark mode is enabled and set the appropriate theme
+        boolean isDarkModeOn = sharedPreferences.getBoolean("dark_mode", false);
+        if (isDarkModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        // Temperature Unit
+        RadioGroup temperatureUnitRadioGroup = view.findViewById(R.id.temperatureUnitRadioGroup);
+        String temperatureUnit = sharedPreferences.getString("temperature_unit", "celsius");
+        switch (temperatureUnit) {
+            case "celsius":
+                temperatureUnitRadioGroup.check(R.id.celsiusRadioButton);
+                break;
+            case "fahrenheit":
+                temperatureUnitRadioGroup.check(R.id.fahrenheitRadioButton);
+                break;
+            case "system":
+                temperatureUnitRadioGroup.check(R.id.systemRadioButton);
+                break;
+        }
+        temperatureUnitRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                // Update the periodic work request with the new interval
-                String updateIntervalString = (String) newValue;
-                long updateIntervalMillis = Long.parseLong(updateIntervalString) * 60 * 60 * 1000;
-                WorkManager.getInstance(getActivity()).cancelUniqueWork("WeatherDataUpdate");
-                schedulePeriodicDataUpdates(updateIntervalMillis);
-                return true;
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                String selectedUnit = "";
+                if (checkedId == R.id.celsiusRadioButton) {
+                    selectedUnit = "celsius";
+                } else if (checkedId == R.id.fahrenheitRadioButton) {
+                    selectedUnit = "fahrenheit";
+                } else if (checkedId == R.id.systemRadioButton) {
+                    selectedUnit = "system";
+                }
+                sharedPreferences.edit().putString("temperature_unit", selectedUnit).apply();
             }
         });
-    }
 
-    private void schedulePeriodicDataUpdates(long updateIntervalMillis) {
-        PeriodicWorkRequest periodicUpdateRequest =
-                new PeriodicWorkRequest.Builder(DataUpdateWorker.class, updateIntervalMillis, TimeUnit.MILLISECONDS)
-                        .setConstraints(new Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.CONNECTED)
-                                .build())
-                        .build();
+        // Other settings configurations...
 
-        WorkManager.getInstance(getActivity()).enqueueUniquePeriodicWork(
-                "WeatherDataUpdate",
-                ExistingPeriodicWorkPolicy.REPLACE,
-                periodicUpdateRequest
-        );
+        // Dark Mode Switch
+        Switch darkModeSwitch = view.findViewById(R.id.darkModeSwitch);
+        darkModeSwitch.setChecked(isDarkModeOn);
+        darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sharedPreferences.edit().putBoolean("dark_mode", isChecked).apply();
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
+
+        return view;
     }
 }
