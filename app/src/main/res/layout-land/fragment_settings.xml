@@ -11,14 +11,30 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Temperature Unit -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Temperature Unit"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sunny"
+                android:contentDescription="Temperature Icon"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperature Unit"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Temperature Radio Buttons -->
         <RadioGroup
             android:id="@+id/temperatureUnitRadioGroup"
             android:layout_width="match_parent"
@@ -48,66 +64,131 @@
 
         </RadioGroup>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Wind Speed Unit -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Wind Speed Unit"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/windy"
+                android:contentDescription="Wind Speed Icon"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wind Speed Unit"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Wind Speed Spinner -->
         <Spinner
             android:id="@+id/windSpeedUnitSpinner"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:entries="@array/wind_speed_units" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Precipitation Unit -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Precipitation Unit"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/rain"
+                android:contentDescription="Precipitation Icon"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Precipitation Unit"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Precipitation Spinner -->
         <Spinner
             android:id="@+id/precipitationUnitSpinner"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:entries="@array/precipitation_units" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Pressure Unit -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Pressure Unit"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/humidity"
+                android:contentDescription="Pressure Icon"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pressure Unit"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Pressure Spinner -->
         <Spinner
             android:id="@+id/pressureUnitSpinner"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:entries="@array/pressure_units" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Distance Unit -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Distance Unit"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_location_on_24"
+                android:contentDescription="Distance Icon"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance Unit"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Distance Spinner -->
         <Spinner
             android:id="@+id/distanceUnitSpinner"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:entries="@array/distance_units" />
 
+        <!-- Restore Defaults Button -->
         <Button
             android:id="@+id/restoreDefaultsButton"
             android:layout_width="wrap_content"
@@ -116,13 +197,28 @@
             android:text="Restore Defaults"
             android:textColor="@android:color/white" />
 
-        <Switch
-            android:id="@+id/darkModeSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:text="Dark Mode"
-            android:textColor="@android:color/white" />
+        <!-- Dark Mode Switch -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/night_clear"
+                android:contentDescription="Dark Mode Icon"
+                android:layout_marginEnd="8dp"/>
+
+            <Switch
+                android:id="@+id/darkModeSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="Dark Mode"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
     </LinearLayout>
 

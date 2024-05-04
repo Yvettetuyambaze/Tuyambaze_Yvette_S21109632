@@ -37,7 +37,18 @@
             android:padding="8dp"
             android:src="@drawable/baseline_keyboard_voice_24" />
 
+        <Button
+            android:id="@+id/btn_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Location"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="10sp"/>
+
     </LinearLayout>
+
 
     <fragment
         android:id="@+id/map"

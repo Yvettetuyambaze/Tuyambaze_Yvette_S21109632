@@ -105,7 +105,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.menu_item3) {
+        if (id == R.id.menu_item2 || id == R.id.menu_item4 || id == R.id.menu_item5 || id == R.id.menu_item6 || id == R.id.menu_item7) {
+            // Navigate to the settings fragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, settingsFragment)
+                    .addToBackStack(null)
+                    .commit();
+            return true;
+        } else if (id == R.id.menu_item3) {
             // Navigate to the preferences fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, preferencesFragment)
